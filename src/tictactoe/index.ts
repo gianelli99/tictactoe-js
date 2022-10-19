@@ -117,7 +117,6 @@ export const minimax = (board: Board) => {
       const currentPlayer = player(board);
       const cachedAction = getFromCache(board);
       if (cachedAction) {
-        console.log("HIY");
         resolve(cachedAction);
       }
 

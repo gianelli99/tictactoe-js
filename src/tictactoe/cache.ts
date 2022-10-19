@@ -19,3 +19,5 @@ const basicBoard: Board = [
 ];
 basicBoard[1][1] = "X";
 storeInCache(basicBoard, [0, 0]);
+
+const generateCache = () => {};
