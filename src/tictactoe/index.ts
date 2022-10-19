@@ -108,21 +108,32 @@ export const utility = (board: Board) => {
 };
 
 export const minimax = (board: Board) => {
-  if (terminal(board)) {
-    return null;
-  }
+  return new Promise<Action | null>((resolve, reject) => {
+    setTimeout(() => {
+      if (terminal(board)) {
+        resolve(null);
+      }
 
-  const currentPlayer = player(board);
-  const cachedAction = getFromCache(board);
-  if (cachedAction) {
-    return cachedAction;
-  }
+      const currentPlayer = player(board);
+      const cachedAction = getFromCache(board);
+      if (cachedAction) {
+        console.log("HIY");
+        resolve(cachedAction);
+      }
 
-  if (currentPlayer === "X") {
-    return maxValue(board)[1];
-  } else {
-    return minValue(board)[1];
-  }
+      if (currentPlayer === "X") {
+        const result = maxValue(board)[1];
+        if (result) {
+          resolve(result);
+        }
+      } else {
+        const result = minValue(board)[1];
+        if (result) {
+          resolve(result);
+        }
+      }
+    }, 10);
+  });
 };
 
 export const maxValue = (board: Board): [number, Action | null] => {
@@ -165,8 +176,8 @@ export const minValue = (board: Board): [number, Action | null] => {
   return [bestValue, bestAction];
 };
 
-export const AIMove = (board: Board) => {
-  const bestAction = minimax(board);
+export const AIMove = async (board: Board) => {
+  const bestAction = await minimax(board);
   if (bestAction) {
     return result(board, bestAction);
   }
